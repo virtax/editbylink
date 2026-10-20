@@ -3,7 +3,9 @@ import { cycleTheme, getEffectiveTheme, getThemeIcon, getThemeLabel, ThemeMode }
 
 describe('theme module', () => {
   it('cycles theme through auto -> light -> dark -> auto', () => {
-    expect(cycleTheme('auto')).toBe('light');
+    const initial: ThemeMode = 'auto';
+    const next: ThemeMode = cycleTheme(initial);
+    expect(next).toBe('light');
     expect(cycleTheme('light')).toBe('dark');
     expect(cycleTheme('dark')).toBe('auto');
   });

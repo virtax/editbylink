@@ -4,6 +4,7 @@ import { parseHash, updateHash, listenToHashChange, DocumentFormat, AppMode } fr
 import { decodePayload, encodePayload, normalizeFormat } from './codec.ts';
 import { getStoredTheme, setStoredTheme, applyTheme, cycleTheme, getThemeIcon, getThemeLabel, ThemeMode } from './theme.ts';
 import { renderContent } from './markdown.ts';
+import { debounce } from './debounce.ts';
 
 const appRoot = document.querySelector<HTMLDivElement>('#app');
 if (!appRoot) {
@@ -72,7 +73,10 @@ async function syncStateToUrl(): Promise<void> {
   });
 }
 
+const debouncedSyncToUrl = debounce(syncStateToUrl, 250);
+
 async function loadFromRoute(): Promise<void> {
+  debouncedSyncToUrl.cancel();
   isUpdatingFromUrl = true;
   const state = parseHash(window.location.hash);
   currentMode = state.mode;
@@ -94,9 +98,11 @@ ui.editor.addEventListener('input', () => {
   const text = ui.editor.value;
   updatePreview(text);
   updateStatusBar(text);
+  debouncedSyncToUrl();
 });
 
 ui.formatSelect.addEventListener('change', async () => {
+  debouncedSyncToUrl.cancel();
   currentFormat = normalizeFormat(ui.formatSelect.value);
   updatePreview(ui.editor.value);
   await syncStateToUrl();
@@ -110,12 +116,14 @@ ui.themeToggleBtn.addEventListener('click', () => {
 });
 
 ui.viewToggleBtn.addEventListener('click', async () => {
+  debouncedSyncToUrl.cancel();
   const nextMode: AppMode = currentMode === 'view' ? 'edit' : 'view';
   applyMode(nextMode);
   await syncStateToUrl();
 });
 
 ui.copyLinkBtn.addEventListener('click', async () => {
+  debouncedSyncToUrl.cancel();
   await syncStateToUrl();
   const url = window.location.href;
   try {

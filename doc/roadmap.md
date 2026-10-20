@@ -7,7 +7,7 @@
 - [x] 0.4 Build responsive split-screen UI (side-by-side Editor & Preview panes).
 - [x] 0.5 Add support for Light theme, Auto by default.
 - [x] 0.6 Integrate `marked` parser with strict HTML escaping (`renderer.html`).
-- [ ] 0.7 Debounced input sync (`250ms`) via `window.history.replaceState()`.
+- [x] 0.7 Debounced input sync (`250ms`) via `window.history.replaceState()`.
 
 ## Phase 1: Compression & Engine Budget Indicators
 - [ ] 1.1 Implement `CompressionStream('deflate-raw')` and `DecompressionStream` pipeline with `base64url` serialization.
