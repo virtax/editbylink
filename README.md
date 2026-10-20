@@ -2,7 +2,7 @@
 
 > Zero-backend, privacy-first Markdown and plain text editor stored entirely inside URL hash fragments with native client-side PDF export.
 
-🚀 **Live Demo:** [https://editbylink.pages.dev/](https://editbylink.pages.dev/)
+🚀 **Live Demo:** [https://editbylink.pages.dev/#/edit/md/%23%20Hello%20World!](https://editbylink.pages.dev/#/edit/md/%23%20Hello%20World!)
 
 [![Live Demo](https://img.shields.io/badge/demo-online-success.svg)](https://editbylink.pages.dev/)
 [![Tests](https://img.shields.io/badge/tests-29%20passed-brightgreen.svg)]()
