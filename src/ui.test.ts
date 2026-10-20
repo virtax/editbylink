@@ -7,6 +7,7 @@ describe('UI layout structure', () => {
     expect(html).toContain('id="editor-input"');
     expect(html).toContain('id="preview-content"');
     expect(html).toContain('id="format-select"');
+    expect(html).toContain('id="btn-theme-toggle"');
     expect(html).toContain('id="btn-view-toggle"');
     expect(html).toContain('id="btn-copy-link"');
     expect(html).toContain('id="status-bar"');

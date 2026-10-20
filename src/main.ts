@@ -2,6 +2,7 @@ import './style.css';
 import { setupUI } from './ui.ts';
 import { parseHash, updateHash, listenToHashChange, DocumentFormat, AppMode } from './router.ts';
 import { decodePayload, encodePayload, normalizeFormat } from './codec.ts';
+import { getStoredTheme, setStoredTheme, applyTheme, cycleTheme, getThemeIcon, getThemeLabel, ThemeMode } from './theme.ts';
 
 const appRoot = document.querySelector<HTMLDivElement>('#app');
 if (!appRoot) {
@@ -12,7 +13,24 @@ const ui = setupUI(appRoot);
 
 let currentMode: AppMode = 'edit';
 let currentFormat: DocumentFormat = 'md';
+let currentTheme: ThemeMode = getStoredTheme();
 let isUpdatingFromUrl = false;
+
+function updateThemeButton(): void {
+  const iconEl = document.querySelector<HTMLSpanElement>('#theme-icon');
+  const labelEl = document.querySelector<HTMLSpanElement>('#theme-label');
+  if (iconEl) {
+    iconEl.textContent = getThemeIcon(currentTheme);
+  }
+  if (labelEl) {
+    labelEl.textContent = getThemeLabel(currentTheme);
+  }
+}
+
+function initTheme(): void {
+  applyTheme(currentTheme);
+  updateThemeButton();
+}
 
 function escapeHtml(text: string): string {
   return text
@@ -25,7 +43,7 @@ function escapeHtml(text: string): string {
 
 function updatePreview(text: string): void {
   // Simple preliminary formatting: preserved whitespace & escaped HTML
-  // Marked parser integration with full GFM will follow in 0.5
+  // Marked parser integration with full GFM will follow in 0.6
   ui.preview.innerHTML = `<pre><code>${escapeHtml(text)}</code></pre>`;
 }
 
@@ -93,6 +111,13 @@ ui.formatSelect.addEventListener('change', async () => {
   await syncStateToUrl();
 });
 
+ui.themeToggleBtn.addEventListener('click', () => {
+  currentTheme = cycleTheme(currentTheme);
+  setStoredTheme(currentTheme);
+  applyTheme(currentTheme);
+  updateThemeButton();
+});
+
 ui.viewToggleBtn.addEventListener('click', async () => {
   const nextMode: AppMode = currentMode === 'view' ? 'edit' : 'view';
   applyMode(nextMode);
@@ -119,4 +144,5 @@ listenToHashChange(() => {
 });
 
 // Initialize on page load
+initTheme();
 loadFromRoute();

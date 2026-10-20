@@ -4,6 +4,7 @@ export interface AppUI {
   preview: HTMLDivElement;
   formatSelect: HTMLSelectElement;
   viewToggleBtn: HTMLButtonElement;
+  themeToggleBtn: HTMLButtonElement;
   copyLinkBtn: HTMLButtonElement;
   statusBar: HTMLElement;
   editorPane: HTMLElement;
@@ -25,6 +26,9 @@ export function getLayoutHTML(): string {
             <option value="raw">Plain Text (raw)</option>
           </select>
         </label>
+        <button id="btn-theme-toggle" class="btn btn-secondary" title="Switch Theme (Auto / Light / Dark)">
+          <span id="theme-icon">🌓</span> <span class="btn-text" id="theme-label">Auto</span>
+        </button>
         <button id="btn-view-toggle" class="btn btn-secondary" title="Toggle between Edit and View modes">
           👁️ <span class="btn-text">View Mode</span>
         </button>
@@ -75,6 +79,7 @@ export function setupUI(root: HTMLElement): AppUI {
     preview: root.querySelector('#preview-content') as HTMLDivElement,
     formatSelect: root.querySelector('#format-select') as HTMLSelectElement,
     viewToggleBtn: root.querySelector('#btn-view-toggle') as HTMLButtonElement,
+    themeToggleBtn: root.querySelector('#btn-theme-toggle') as HTMLButtonElement,
     copyLinkBtn: root.querySelector('#btn-copy-link') as HTMLButtonElement,
     statusBar: root.querySelector('#status-bar') as HTMLElement,
     editorPane: root.querySelector('#pane-editor') as HTMLElement,
