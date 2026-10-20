@@ -3,7 +3,7 @@
 ## Phase 0: Core Foundation & MVP
 - [x] 0.1 Initialize project with **Vite + Vanilla TypeScript** and zero runtime frameworks.
 - [x] 0.2 Implement URL hash parser and router (`#/edit/...` and `#/view/...`).
-- [ ] 0.3 Support uncompressed plain text (`raw`) and uncompressed Markdown (`md`) formats.
+- [x] 0.3 Support uncompressed plain text (`raw`) and uncompressed Markdown (`md`) formats.
 - [ ] 0.4 Build responsive split-screen UI (side-by-side Editor & Preview panes).
 - [ ] 0.5 Integrate `marked` parser with strict HTML escaping (`renderer.html`).
 - [ ] 0.6 Debounced input sync (`250ms`) via `window.history.replaceState()`.
