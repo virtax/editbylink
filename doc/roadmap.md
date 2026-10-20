@@ -6,7 +6,7 @@
 - [x] 0.3 Support uncompressed plain text (`raw`) and uncompressed Markdown (`md`) formats.
 - [x] 0.4 Build responsive split-screen UI (side-by-side Editor & Preview panes).
 - [x] 0.5 Add support for Light theme, Auto by default.
-- [ ] 0.6 Integrate `marked` parser with strict HTML escaping (`renderer.html`).
+- [x] 0.6 Integrate `marked` parser with strict HTML escaping (`renderer.html`).
 - [ ] 0.7 Debounced input sync (`250ms`) via `window.history.replaceState()`.
 
 ## Phase 1: Compression & Engine Budget Indicators

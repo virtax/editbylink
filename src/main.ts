@@ -3,6 +3,7 @@ import { setupUI } from './ui.ts';
 import { parseHash, updateHash, listenToHashChange, DocumentFormat, AppMode } from './router.ts';
 import { decodePayload, encodePayload, normalizeFormat } from './codec.ts';
 import { getStoredTheme, setStoredTheme, applyTheme, cycleTheme, getThemeIcon, getThemeLabel, ThemeMode } from './theme.ts';
+import { renderContent } from './markdown.ts';
 
 const appRoot = document.querySelector<HTMLDivElement>('#app');
 if (!appRoot) {
@@ -32,19 +33,8 @@ function initTheme(): void {
   updateThemeButton();
 }
 
-function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
 function updatePreview(text: string): void {
-  // Simple preliminary formatting: preserved whitespace & escaped HTML
-  // Marked parser integration with full GFM will follow in 0.6
-  ui.preview.innerHTML = `<pre><code>${escapeHtml(text)}</code></pre>`;
+  ui.preview.innerHTML = renderContent(text, currentFormat);
 }
 
 function updateStatusBar(text: string): void {
@@ -108,6 +98,7 @@ ui.editor.addEventListener('input', () => {
 
 ui.formatSelect.addEventListener('change', async () => {
   currentFormat = normalizeFormat(ui.formatSelect.value);
+  updatePreview(ui.editor.value);
   await syncStateToUrl();
 });
 
