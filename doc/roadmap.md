@@ -1,0 +1,41 @@
+# Roadmap: EditByLink
+
+## Phase 0: Core Foundation & MVP
+- [x] 0.1 Initialize project with **Vite + Vanilla TypeScript** and zero runtime frameworks.
+- [ ] 0.2 Implement URL hash parser and router (`#/edit/...` and `#/view/...`).
+- [ ] 0.3 Support uncompressed plain text (`raw`) and uncompressed Markdown (`md`) formats.
+- [ ] 0.4 Build responsive split-screen UI (side-by-side Editor & Preview panes).
+- [ ] 0.5 Integrate `marked` parser with strict HTML escaping (`renderer.html`).
+- [ ] 0.6 Debounced input sync (`250ms`) via `window.history.replaceState()`.
+
+## Phase 1: Compression & Engine Budget Indicators
+- [ ] 1.1 Implement `CompressionStream('deflate-raw')` and `DecompressionStream` pipeline with `base64url` serialization.
+- [ ] 1.2 Race-condition protection using a monotonic sequence/version counter.
+- [ ] 1.3 Add format switcher (`raw` text, standard `md`, compressed `z`).
+- [ ] 1.4 Build bottom status bar:
+  - Document character and byte counters.
+  - Compression savings ratio (%).
+  - Active limit gauges for **Blink** (~32 KB), **WebKit** (~64 KB), and **Gecko** (~64 KB).
+  - Dynamic red alert state when exceeding specific engine limits.
+
+## Phase 2: Native PDF Export & Dedicated View Mode
+- [ ] 2.1 Create `@media print` print-optimized styling:
+  - Isolate preview pane; hide editor, toolbar, and status bar.
+  - Page break protection rules (`break-after: avoid` for headers, `break-inside: avoid` for code, tables, images).
+- [ ] 2.2 Page format selector (`A4` vs `US Letter`) with dynamic `@page { size: ... }` application.
+- [ ] 2.3 Client-side "Export to PDF" trigger calling `window.print()`.
+- [ ] 2.4 Standalone View Mode (`#/view/...`):
+  - Clean, distraction-free reading layout.
+  - Quick action to jump into Edit Mode (`#/edit/...`).
+
+## Phase 3: Polish, Edge Cases & Testing
+- [ ] 3.1 Implement quick "Copy Shareable Link" with interactive feedback (toast/badge).
+- [ ] 3.2 Test Safari/WebKit rate-limiting resilience under aggressive typing simulations.
+- [ ] 3.3 External and inline data image verification (`![alt](...)`).
+- [ ] 3.4 Unit tests for compression, decompressor fallback, and URL hash serialization (`npm test`).
+
+## Phase 4: Future Considerations (Backlog)
+- [ ] 4.1 Code block syntax highlighting via lightweight highlighter (e.g., PrismJS or lowlight).
+- [ ] 4.2 LaTeX / Math formula support via KaTeX.
+- [ ] 4.3 Reading time and word count metrics in status bar.
+- [ ] 4.4 Dark / Light / Sepia theme selector for preview and PDF export.
