@@ -20,11 +20,11 @@
   - Dynamic red alert state when exceeding the 64 KB threshold.
 
 ## Phase 2: Native PDF Export & Dedicated View Mode
-- [ ] 2.1 Create `@media print` print-optimized styling:
+- [x] 2.1 Create `@media print` print-optimized styling:
   - Isolate preview pane; hide editor, toolbar, and status bar.
   - Page break protection rules (`break-after: avoid` for headers, `break-inside: avoid` for code, tables, images).
-- [ ] 2.2 Page format selector (`A4` vs `US Letter`) with dynamic `@page { size: ... }` application.
-- [ ] 2.3 Client-side "Export to PDF" trigger calling `window.print()`.
+- [ ] 2.2 Client-side "Export to PDF" trigger calling `window.print()`.
+- [ ] 2.3 Page format selector (`A4` vs `US Letter`) with dynamic `@page { size: ... }` application.
 - [ ] 2.4 Standalone View Mode (`#/view/...`):
   - Clean, distraction-free reading layout.
   - Quick action to jump into Edit Mode (`#/edit/...`).

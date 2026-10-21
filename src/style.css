@@ -400,3 +400,70 @@ html, body {
     display: none;
   }
 }
+
+/* Print Optimization (@media print) */
+@page {
+  margin: 15mm 20mm;
+}
+
+@media print {
+  html,
+  body,
+  #app {
+    height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    color: #1f2328 !important;
+  }
+
+  /* Isolate preview pane; hide editor, toolbar, pane headers, and status bar */
+  .app-header,
+  .pane-editor,
+  .pane-header,
+  .status-bar {
+    display: none !important;
+  }
+
+  .split-container {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .pane-preview {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    border: none !important;
+    background: #ffffff !important;
+  }
+
+  .preview-body {
+    padding: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+    color: #1f2328 !important;
+  }
+
+  /* Page break protection rules */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  pre,
+  blockquote,
+  table,
+  img,
+  figure,
+  tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
