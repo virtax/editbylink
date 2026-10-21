@@ -91,7 +91,7 @@ async function loadFromRoute(): Promise<void> {
   currentMode = state.mode;
   currentFormat = normalizeFormat(state.format);
 
-  ui.formatSelect.value = currentFormat === 'raw' ? 'raw' : 'md';
+  ui.formatSelect.value = currentFormat;
   applyMode(currentMode);
 
   const text = await decodePayload(state.payload, currentFormat);

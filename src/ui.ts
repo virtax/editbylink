@@ -24,6 +24,7 @@ export function getLayoutHTML(): string {
           <select id="format-select" class="select-input">
             <option value="md">Markdown (md)</option>
             <option value="raw">Plain Text (raw)</option>
+            <option value="z">Compressed (z)</option>
           </select>
         </label>
         <button id="btn-theme-toggle" class="btn btn-secondary" title="Switch Theme (Auto / Light / Dark)">

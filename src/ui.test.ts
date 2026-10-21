@@ -20,9 +20,10 @@ describe('UI layout structure', () => {
     expect(html).toContain('id="pane-preview"');
   });
 
-  it('provides format options for md and raw', () => {
+  it('provides format options for md, raw, and z', () => {
     const html = getLayoutHTML();
     expect(html).toContain('value="md"');
     expect(html).toContain('value="raw"');
+    expect(html).toContain('value="z"');
   });
 });
