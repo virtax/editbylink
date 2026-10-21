@@ -6,6 +6,7 @@ import { getStoredTheme, setStoredTheme, applyTheme, cycleTheme, getThemeIcon, g
 import { renderContent } from './markdown.ts';
 import { debounce } from './debounce.ts';
 import { createSequenceGuard } from './sequence.ts';
+import { formatBytes, calculateStatusMetrics } from './status.ts';
 
 const appRoot = document.querySelector<HTMLDivElement>('#app');
 if (!appRoot) {
@@ -40,15 +41,25 @@ function updatePreview(text: string): void {
   ui.preview.innerHTML = renderContent(text, currentFormat);
 }
 
-function updateStatusBar(text: string): void {
-  const charCountEl = document.querySelector<HTMLSpanElement>('#status-char-count');
-  const modeEl = document.querySelector<HTMLSpanElement>('#status-mode');
-  if (charCountEl) {
-    charCountEl.textContent = `${text.length} chars`;
+let latestPayload = '';
+
+function updateStatusBar(text: string, payload: string = latestPayload): void {
+  latestPayload = payload;
+  const urlLength = window.location.href.length;
+  const metrics = calculateStatusMetrics(text, payload, currentFormat, urlLength);
+
+  ui.charCountEl.textContent = `${metrics.charCount.toLocaleString()} chars`;
+  ui.savingsEl.textContent = `${metrics.savingsPercent}% saved`;
+
+  if (metrics.isOverLimit) {
+    ui.budgetTextEl.textContent = `URL: ${formatBytes(metrics.urlLength)} / 64 KB`;
+    ui.budgetEl.classList.add('status-alert');
+  } else {
+    ui.budgetTextEl.textContent = `URL: ${formatBytes(metrics.urlLength)} / 64 KB`;
+    ui.budgetEl.classList.remove('status-alert');
   }
-  if (modeEl) {
-    modeEl.textContent = `Mode: ${currentMode === 'view' ? 'View' : 'Edit'}`;
-  }
+
+  ui.budgetFillEl.style.width = `${metrics.budgetPercent}%`;
 }
 
 function applyMode(mode: AppMode): void {
@@ -62,7 +73,7 @@ function applyMode(mode: AppMode): void {
     ui.previewPane.style.display = 'flex';
     ui.viewToggleBtn.innerHTML = '👁️ <span class="btn-text">View Mode</span>';
   }
-  updateStatusBar(ui.editor.value);
+  updateStatusBar(ui.editor.value, latestPayload);
 }
 
 async function syncStateToUrl(): Promise<void> {
@@ -79,6 +90,7 @@ async function syncStateToUrl(): Promise<void> {
     format,
     payload
   });
+  updateStatusBar(text, payload);
 }
 
 const debouncedSyncToUrl = debounce(syncStateToUrl, 250);
@@ -100,7 +112,7 @@ async function loadFromRoute(): Promise<void> {
   }
   ui.editor.value = text;
   updatePreview(text);
-  updateStatusBar(text);
+  updateStatusBar(text, state.payload);
   isUpdatingFromUrl = false;
 }
 
@@ -110,7 +122,7 @@ ui.editor.addEventListener('input', () => {
   stateGuard.next();
   const text = ui.editor.value;
   updatePreview(text);
-  updateStatusBar(text);
+  updateStatusBar(text, latestPayload);
   debouncedSyncToUrl();
 });
 
@@ -118,6 +130,7 @@ ui.formatSelect.addEventListener('change', async () => {
   debouncedSyncToUrl.cancel();
   currentFormat = normalizeFormat(ui.formatSelect.value);
   updatePreview(ui.editor.value);
+  updateStatusBar(ui.editor.value, latestPayload);
   await syncStateToUrl();
 });
 

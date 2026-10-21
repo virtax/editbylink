@@ -81,17 +81,20 @@ flowchart LR
 
 ## 5. Status Bar & Browser URL Limits
 
-A dedicated status bar at the bottom provides real-time character count and URL budget indicators across the major browser rendering engines:
+A left-aligned status bar at the bottom provides real-time document metrics and URL budget indicators:
 
-| Engine | Primary Browsers | Practical URL Length Limit |
+- **Character Counter**: Real-time length of the document in the editor (`X chars`).
+- **Compression Savings**: Real-time compression efficiency percentage (`X% saved`) calculated against the raw UTF-8 payload when using compressed format (`z`).
+- **Universal URL Budget Gauge**: Real-time monitor of the active URL length (`URL: X / 64 KB`) with a visual progress meter tracking consumption against the universal browser threshold.
+
+| Scope | Practical Limit | Rationale |
 | :--- | :--- | :--- |
-| **Blink** | Google Chrome, Microsoft Edge, Brave, Opera | **32,767 chars** (~32 KB) |
-| **WebKit** | Apple Safari (macOS & iOS) | **65,536 chars** (~64 KB) |
-| **Gecko** | Mozilla Firefox | **65,536 chars** (~64 KB) |
-| **Safe HTTP** | Proxies, legacy tools, referral specs | **2,048 chars** (~2 KB) |
+| **Universal Browser Limit** | **65,536 chars** (~64 KB) | Safe ceiling across modern engines (Safari & Firefox limit), guaranteeing shareable links open reliably on any device |
+| **Chrome Engine Maximum** | **2,097,152 chars** (~2 MB) | Chromium IPC hard cap (Omnibox visually truncates display at 32 KB) |
+| **Safe HTTP (Reference)** | **2,048 chars** (~2 KB) | Historic proxy/email guideline (hash payloads `#...` bypass server limits) |
 
 **UI Threshold Alert:**
-- When the current URL length surpasses an engine's limit, the corresponding badge in the status bar turns red with an alert icon, warning the user that links may be truncated when opened in that engine.
+- When the current URL length surpasses the **64 KB** threshold, the budget gauge transitions to a dynamic red alert state (`.status-alert`), warning that the link may fail to open in Safari or Firefox.
 
 ---
 
@@ -123,4 +126,4 @@ A dedicated status bar at the bottom provides real-time character count and URL 
 - **Split-Screen Editor**:
   - `Header Toolbar`: Format selector (`raw` / `md` / `z`), page size picker (`A4` / `Letter`), Copy Link button, View Mode toggle, Export PDF button.
   - `Main Workspace`: CSS grid or flexbox split pane (left: auto-growing `<textarea>`, right: sanitized `#preview`).
-  - `Status Bar`: Document byte size, compression ratio %, and Blink / WebKit / Gecko engine limit indicators.
+  - `Status Bar`: Left-aligned document character count, compression savings %, and universal 64 KB URL budget gauge with visual meter and alert state.

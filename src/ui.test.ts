@@ -11,6 +11,11 @@ describe('UI layout structure', () => {
     expect(html).toContain('id="btn-view-toggle"');
     expect(html).toContain('id="btn-copy-link"');
     expect(html).toContain('id="status-bar"');
+    expect(html).toContain('id="status-char-count"');
+    expect(html).toContain('id="status-savings"');
+    expect(html).toContain('id="status-budget"');
+    expect(html).toContain('id="status-budget-text"');
+    expect(html).toContain('id="status-budget-fill"');
   });
 
   it('includes split-container with both editor and preview sections', () => {

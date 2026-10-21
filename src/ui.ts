@@ -9,6 +9,11 @@ export interface AppUI {
   statusBar: HTMLElement;
   editorPane: HTMLElement;
   previewPane: HTMLElement;
+  charCountEl: HTMLElement;
+  savingsEl: HTMLElement;
+  budgetEl: HTMLElement;
+  budgetTextEl: HTMLElement;
+  budgetFillEl: HTMLElement;
 }
 
 export function getLayoutHTML(): string {
@@ -63,9 +68,15 @@ export function getLayoutHTML(): string {
     <footer class="status-bar" id="status-bar">
       <div class="status-left">
         <span id="status-char-count">0 chars</span>
-      </div>
-      <div class="status-right">
-        <span class="status-mode" id="status-mode">Mode: Edit</span>
+        <span class="status-separator" aria-hidden="true">•</span>
+        <span id="status-savings">0% saved</span>
+        <span class="status-separator" aria-hidden="true">•</span>
+        <div id="status-budget" class="status-budget" title="Universal browser URL limit is 64 KB">
+          <span id="status-budget-text">URL: 0 B / 64 KB</span>
+          <span class="budget-meter" aria-hidden="true">
+            <span id="status-budget-fill" class="budget-fill" style="width: 0%"></span>
+          </span>
+        </div>
       </div>
     </footer>
   `;
@@ -84,6 +95,11 @@ export function setupUI(root: HTMLElement): AppUI {
     copyLinkBtn: root.querySelector('#btn-copy-link') as HTMLButtonElement,
     statusBar: root.querySelector('#status-bar') as HTMLElement,
     editorPane: root.querySelector('#pane-editor') as HTMLElement,
-    previewPane: root.querySelector('#pane-preview') as HTMLElement
+    previewPane: root.querySelector('#pane-preview') as HTMLElement,
+    charCountEl: root.querySelector('#status-char-count') as HTMLElement,
+    savingsEl: root.querySelector('#status-savings') as HTMLElement,
+    budgetEl: root.querySelector('#status-budget') as HTMLElement,
+    budgetTextEl: root.querySelector('#status-budget-text') as HTMLElement,
+    budgetFillEl: root.querySelector('#status-budget-fill') as HTMLElement
   };
 }

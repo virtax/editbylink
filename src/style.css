@@ -11,6 +11,8 @@
   --btn-secondary-bg: #21262d;
   --btn-secondary-hover: #30363d;
   --link-color: #58a6ff;
+  --danger-color: #f85149;
+  --danger-bg: rgba(248, 81, 73, 0.15);
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 }
@@ -27,6 +29,8 @@
     --btn-secondary-bg: #f6f8fa;
     --btn-secondary-hover: #eff1f3;
     --link-color: #0969da;
+    --danger-color: #cf222e;
+    --danger-bg: rgba(207, 34, 46, 0.15);
   }
 }
 
@@ -41,6 +45,8 @@
   --btn-secondary-bg: #f6f8fa;
   --btn-secondary-hover: #eff1f3;
   --link-color: #0969da;
+  --danger-color: #cf222e;
+  --danger-bg: rgba(207, 34, 46, 0.15);
 }
 
 /* Explicit Dark Theme */
@@ -54,6 +60,8 @@
   --btn-secondary-bg: #21262d;
   --btn-secondary-hover: #30363d;
   --link-color: #58a6ff;
+  --danger-color: #f85149;
+  --danger-bg: rgba(248, 81, 73, 0.15);
 }
 
 * {
@@ -326,12 +334,57 @@ html, body {
   border-top: 1px solid var(--border-color);
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0 16px;
   font-size: 0.75rem;
   color: var(--text-secondary);
   user-select: none;
   flex-shrink: 0;
+}
+
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-separator {
+  color: var(--border-color);
+  user-select: none;
+}
+
+.status-budget {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s ease;
+}
+
+.budget-meter {
+  display: inline-flex;
+  width: 48px;
+  height: 6px;
+  background-color: var(--bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.budget-fill {
+  display: block;
+  height: 100%;
+  background-color: var(--link-color);
+  border-radius: 3px;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.status-budget.status-alert {
+  color: var(--danger-color);
+  font-weight: 600;
+}
+
+.status-budget.status-alert .budget-fill {
+  background-color: var(--danger-color);
 }
 
 /* Responsive: stack panes vertically on mobile */

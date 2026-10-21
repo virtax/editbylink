@@ -13,11 +13,11 @@
 - [x] 1.1 Implement `CompressionStream('deflate-raw')` and `DecompressionStream` pipeline with `base64url` serialization.
 - [x] 1.2 Race-condition protection using a monotonic sequence/version counter.
 - [x] 1.3 Add format switcher (`raw` text, standard `md`, compressed `z`).
-- [ ] 1.4 Build bottom status bar:
+- [x] 1.4 Build bottom status bar:
   - Document character and byte counters.
   - Compression savings ratio (%).
-  - Active limit gauges for **Blink** (~32 KB), **WebKit** (~64 KB), and **Gecko** (~64 KB).
-  - Dynamic red alert state when exceeding specific engine limits.
+  - Active URL budget gauge with universal browser limit (~64 KB).
+  - Dynamic red alert state when exceeding the 64 KB threshold.
 
 ## Phase 2: Native PDF Export & Dedicated View Mode
 - [ ] 2.1 Create `@media print` print-optimized styling:
