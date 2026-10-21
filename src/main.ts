@@ -67,11 +67,11 @@ function applyMode(mode: AppMode): void {
   if (mode === 'view') {
     ui.editorPane.style.display = 'none';
     ui.previewPane.style.display = 'flex';
-    ui.viewToggleBtn.innerHTML = '✏️ <span class="btn-text">Edit Mode</span>';
+    ui.viewToggleBtn.innerHTML = '✏️ <span class="btn-text">Edit</span>';
   } else {
     ui.editorPane.style.display = 'flex';
     ui.previewPane.style.display = 'flex';
-    ui.viewToggleBtn.innerHTML = '👁️ <span class="btn-text">View Mode</span>';
+    ui.viewToggleBtn.innerHTML = '👁️ <span class="btn-text">View</span>';
   }
   updateStatusBar(ui.editor.value, latestPayload);
 }

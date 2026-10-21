@@ -27,16 +27,16 @@ export function getLayoutHTML(): string {
         <label class="toolbar-item" for="format-select">
           <span class="toolbar-label">Format:</span>
           <select id="format-select" class="select-input">
-            <option value="md">Markdown (md)</option>
-            <option value="raw">Plain Text (raw)</option>
-            <option value="z">Compressed (z)</option>
+            <option value="md">Markdown</option>
+            <option value="raw">Plain Text</option>
+            <option value="z">Compressed</option>
           </select>
         </label>
         <button id="btn-theme-toggle" class="btn btn-secondary" title="Switch Theme (Auto / Light / Dark)">
           <span id="theme-icon">🌓</span> <span class="btn-text" id="theme-label">Auto</span>
         </button>
         <button id="btn-view-toggle" class="btn btn-secondary" title="Toggle between Edit and View modes">
-          👁️ <span class="btn-text">View Mode</span>
+          👁️ <span class="btn-text">View</span>
         </button>
         <button id="btn-copy-link" class="btn btn-primary" title="Copy shareable link">
           📋 <span class="btn-text">Copy Link</span>
