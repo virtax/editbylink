@@ -45,4 +45,15 @@ describe('codec module for raw and md formats', () => {
     const result = await decodePayload(malformed, 'raw');
     expect(typeof result).toBe('string');
   });
+
+  it('roundtrips compressed format z', async () => {
+    const original = '# Title\n\nContent for compressed format z test with unicode: 🚀';
+    const encoded = await encodePayload(original, 'z');
+    expect(encoded).not.toContain('+');
+    expect(encoded).not.toContain('/');
+    expect(encoded).not.toContain('=');
+
+    const decoded = await decodePayload(encoded, 'z');
+    expect(decoded).toBe(original);
+  });
 });

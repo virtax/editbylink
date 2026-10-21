@@ -10,7 +10,7 @@
 - [x] 0.7 Debounced input sync (`250ms`) via `window.history.replaceState()`.
 
 ## Phase 1: Compression & Engine Budget Indicators
-- [ ] 1.1 Implement `CompressionStream('deflate-raw')` and `DecompressionStream` pipeline with `base64url` serialization.
+- [x] 1.1 Implement `CompressionStream('deflate-raw')` and `DecompressionStream` pipeline with `base64url` serialization.
 - [ ] 1.2 Race-condition protection using a monotonic sequence/version counter.
 - [ ] 1.3 Add format switcher (`raw` text, standard `md`, compressed `z`).
 - [ ] 1.4 Build bottom status bar:

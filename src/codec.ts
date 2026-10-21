@@ -1,4 +1,5 @@
 import { DocumentFormat } from './router.ts';
+import { compressText, decompressText } from './compress.ts';
 
 export interface CodecOptions {
   format: DocumentFormat;
@@ -29,8 +30,7 @@ export async function encodePayload(text: string, format: DocumentFormat): Promi
     case 'md':
       return encodeURIComponent(text);
     case 'z':
-      // Compression will be implemented in Phase 1.1; fallback to encodeURIComponent for now
-      return encodeURIComponent(text);
+      return compressText(text);
     default:
       return encodeURIComponent(text);
   }
@@ -38,7 +38,7 @@ export async function encodePayload(text: string, format: DocumentFormat): Promi
 
 /**
  * Decodes a URL payload string into original text according to the format.
- * Recovers safely from malformed URI components.
+ * Recovers safely from malformed URI components or corrupted streams.
  */
 export async function decodePayload(payload: string, format: DocumentFormat): Promise<string> {
   if (!payload) {
@@ -58,12 +58,7 @@ export async function decodePayload(payload: string, format: DocumentFormat): Pr
       }
     }
     case 'z': {
-      // Decompression will be implemented in Phase 1.1; fallback for now
-      try {
-        return decodeURIComponent(payload);
-      } catch {
-        return payload;
-      }
+      return decompressText(payload);
     }
     default:
       try {
