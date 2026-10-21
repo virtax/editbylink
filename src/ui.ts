@@ -5,6 +5,7 @@ export interface AppUI {
   formatSelect: HTMLSelectElement;
   viewToggleBtn: HTMLButtonElement;
   themeToggleBtn: HTMLButtonElement;
+  exportPdfBtn: HTMLButtonElement;
   copyLinkBtn: HTMLButtonElement;
   statusBar: HTMLElement;
   editorPane: HTMLElement;
@@ -37,6 +38,9 @@ export function getLayoutHTML(): string {
         </button>
         <button id="btn-view-toggle" class="btn btn-secondary" title="Toggle between Edit and View modes">
           👁️ <span class="btn-text">View</span>
+        </button>
+        <button id="btn-export-pdf" class="btn btn-secondary" title="Export to PDF / Print (Ctrl+P / Cmd+P)">
+          📄 <span class="btn-text">PDF</span>
         </button>
         <button id="btn-copy-link" class="btn btn-primary" title="Copy shareable link">
           📋 <span class="btn-text">Copy Link</span>
@@ -92,6 +96,7 @@ export function setupUI(root: HTMLElement): AppUI {
     formatSelect: root.querySelector('#format-select') as HTMLSelectElement,
     viewToggleBtn: root.querySelector('#btn-view-toggle') as HTMLButtonElement,
     themeToggleBtn: root.querySelector('#btn-theme-toggle') as HTMLButtonElement,
+    exportPdfBtn: root.querySelector('#btn-export-pdf') as HTMLButtonElement,
     copyLinkBtn: root.querySelector('#btn-copy-link') as HTMLButtonElement,
     statusBar: root.querySelector('#status-bar') as HTMLElement,
     editorPane: root.querySelector('#pane-editor') as HTMLElement,

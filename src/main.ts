@@ -148,6 +148,21 @@ ui.viewToggleBtn.addEventListener('click', async () => {
   await syncStateToUrl();
 });
 
+ui.exportPdfBtn.addEventListener('click', () => {
+  window.print();
+});
+
+window.addEventListener('beforeprint', () => {
+  const match = ui.editor.value.match(/^#\s+(.+)$/m);
+  if (match && match[1]?.trim()) {
+    document.title = match[1].trim();
+  }
+});
+
+window.addEventListener('afterprint', () => {
+  document.title = 'EditByLink';
+});
+
 ui.copyLinkBtn.addEventListener('click', async () => {
   debouncedSyncToUrl.cancel();
   await syncStateToUrl();
