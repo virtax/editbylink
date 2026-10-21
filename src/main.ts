@@ -5,6 +5,7 @@ import { decodePayload, encodePayload, normalizeFormat } from './codec.ts';
 import { getStoredTheme, setStoredTheme, applyTheme, cycleTheme, getThemeIcon, getThemeLabel, ThemeMode } from './theme.ts';
 import { renderContent } from './markdown.ts';
 import { debounce } from './debounce.ts';
+import { createSequenceGuard } from './sequence.ts';
 
 const appRoot = document.querySelector<HTMLDivElement>('#app');
 if (!appRoot) {
@@ -17,6 +18,7 @@ let currentMode: AppMode = 'edit';
 let currentFormat: DocumentFormat = 'md';
 let currentTheme: ThemeMode = getStoredTheme();
 let isUpdatingFromUrl = false;
+const stateGuard = createSequenceGuard();
 
 function updateThemeButton(): void {
   const iconEl = document.querySelector<HTMLSpanElement>('#theme-icon');
@@ -64,11 +66,17 @@ function applyMode(mode: AppMode): void {
 }
 
 async function syncStateToUrl(): Promise<void> {
+  const seq = stateGuard.next();
   const text = ui.editor.value;
-  const payload = await encodePayload(text, currentFormat);
+  const format = currentFormat;
+  const mode = currentMode;
+  const payload = await encodePayload(text, format);
+  if (!stateGuard.isCurrent(seq)) {
+    return;
+  }
   updateHash({
-    mode: currentMode,
-    format: currentFormat,
+    mode,
+    format,
     payload
   });
 }
@@ -76,6 +84,7 @@ async function syncStateToUrl(): Promise<void> {
 const debouncedSyncToUrl = debounce(syncStateToUrl, 250);
 
 async function loadFromRoute(): Promise<void> {
+  const seq = stateGuard.next();
   debouncedSyncToUrl.cancel();
   isUpdatingFromUrl = true;
   const state = parseHash(window.location.hash);
@@ -86,6 +95,9 @@ async function loadFromRoute(): Promise<void> {
   applyMode(currentMode);
 
   const text = await decodePayload(state.payload, currentFormat);
+  if (!stateGuard.isCurrent(seq)) {
+    return;
+  }
   ui.editor.value = text;
   updatePreview(text);
   updateStatusBar(text);
@@ -95,6 +107,7 @@ async function loadFromRoute(): Promise<void> {
 // Event Listeners
 ui.editor.addEventListener('input', () => {
   if (isUpdatingFromUrl) return;
+  stateGuard.next();
   const text = ui.editor.value;
   updatePreview(text);
   updateStatusBar(text);
